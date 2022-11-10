@@ -709,6 +709,54 @@
         $('.ps-datepicker').datepicker();
     }
 
+    /*=============================================
+    Función de paginación
+    =============================================*/
+
+    function pagination(){
+
+        var target = $('.pagination');
+
+        if(target.length > 0){
+
+            target.each(function() {
+
+                var el = $(this),
+                    totalPages = el.data("total-pages"),
+                    currentPage = el.data("current-page"),
+                    urlPage = el.data("url-page");
+
+                el.twbsPagination({
+
+                    totalPages: totalPages,
+                    startPage: currentPage,
+                    visiblePages: 3,
+                    first: '<i class="fas fa-angle-double-left"></i>',
+                    last: '<i class="fas fa-angle-double-right"></i>',
+                    prev: '<i class="fas fa-angle-left"></i>',
+                    next: '<i class="fas fa-angle-right"></i>'
+
+                }).on("page", function(evt, page){
+
+                    if(urlPage.includes("&",1)){
+
+                        urlPage = urlPage.replace("&"+currentPage, "&"+page);
+                        window.location = urlPage+"#showcase";
+
+                    }else{
+
+                        window.location = urlPage+"&"+page+"#showcase";
+                    }    
+
+                })
+
+            })
+
+        }
+
+
+    }
+
     $(function() {
         backgroundImage();
         owlCarouselConfig();
@@ -737,6 +785,7 @@
         carouselNavigation();
         dateTimePicker();
         $('[data-toggle="tooltip"]').tooltip();
+        pagination();
     });
 
     $(window).on('load', function() {
@@ -750,3 +799,149 @@
     })
 
 })(jQuery);
+
+
+/*=============================================
+Función para ordenar productos
+=============================================*/
+
+function sortProduct(event){
+    
+    var url = event.target.value.split("+")[0];
+    var sort = event.target.value.split("+")[1];
+    var endUrl = url.split("&")[0];
+    window.location = endUrl+"&1&"+sort+"#showcase";
+
+}
+
+
+/*=============================================
+Función para crear Cookies en JS
+=============================================*/
+
+function setCookie(name, value, exp){
+
+    var now = new Date();
+
+    now.setTime(now.getTime() + (exp*24*60*60*1000));
+
+    var expDate = "expires="+now.toUTCString();
+
+    document.cookie = name + "=" +value+"; "+expDate;
+
+}
+
+/*=============================================
+Función para almacenar en cookie la tabulación de la vitrina
+=============================================*/
+
+$(document).on("click",".ps-tab-list li", function(){
+
+    setCookie("tab", $(this).attr("type"), 1);
+
+})
+
+/*=============================================
+Función para buscar productos
+=============================================*/
+
+$(document).on("click", ".btnSearch", function(){
+
+    var path = $(this).attr("path");
+    var search = $(this).parent().children(".inputSearch").val().toLowerCase();
+    var match = /^[a-z0-9ñÑáéíóú ]*$/;
+
+    if(match.test(search)){
+
+        var searchTest = search.replace(/[ ]/g, "_");
+        searchTest = searchTest.replace(/[ñ]/g, "n");
+        searchTest = searchTest.replace(/[á]/g, "a");
+        searchTest = searchTest.replace(/[é]/g, "e");
+        searchTest = searchTest.replace(/[í]/g, "i");
+        searchTest = searchTest.replace(/[ó]/g, "o");
+        searchTest = searchTest.replace(/[ú]/g, "u");
+        
+        window.location = path+searchTest;
+
+    }else{
+
+       $(this).parent().children(".inputSearch").val("");
+    
+    }
+
+})
+
+/*=============================================
+Función para buscar con la tecla ENTER
+=============================================*/
+
+var inputSearch = $(".inputSearch");
+var btnSearch = $(".btnSearch");
+
+for(let i = 0; i < inputSearch.length; i++){
+
+    $(inputSearch[i]).keyup(function(event) {
+        
+        event.preventDefault();
+
+        if(event.keyCode == 13 && $(inputSearch[i]).val() != ""){
+
+            var path =  $(btnSearch[i]).attr("path");
+            var search = $(this).val().toLowerCase();
+            var match = /^[a-z0-9ñÑáéíóú ]*$/;
+
+            if(match.test(search)){
+
+                var searchTest = search.replace(/[ ]/g, "_");
+                searchTest = searchTest.replace(/[ñ]/g, "n");
+                searchTest = searchTest.replace(/[á]/g, "a");
+                searchTest = searchTest.replace(/[é]/g, "e");
+                searchTest = searchTest.replace(/[í]/g, "i");
+                searchTest = searchTest.replace(/[ó]/g, "o");
+                searchTest = searchTest.replace(/[ú]/g, "u");
+                
+                window.location = path+searchTest;
+
+            }else{
+
+               $(this).val("");
+            
+            }
+
+
+        }
+
+
+    })
+
+}
+
+/*=============================================
+Función para cambiar la cantidad
+=============================================*/
+
+function changeQuantity(quantity, move, stock){
+
+    var number = 1;
+
+    if(Number(quantity) > stock-1){
+
+        quantity = stock-1;
+
+    }
+
+    if(move == "up"){
+
+        number = Number(quantity)+1;
+    
+    }
+
+    if(move == "down" && Number(quantity) > 1){
+
+        number = Number(quantity)-1;
+    }
+
+    $(".quantity input").val(number);
+
+   
+}

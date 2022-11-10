@@ -99,7 +99,7 @@ $menuCategories = CurlController::request($url, $method, $fields, $header)->resu
          
                             <li class="menu-item-has-children has-mega-menu">
 
-                                <a href="<?php echo $value->url_category ?>">
+                                <a href="<?php echo $path.$value->url_category ?>">
                                     <i class="<?php echo $value->icon_category ?>"></i> 
                                     <?php echo $value->name_category ?>
                                 </a>
@@ -142,7 +142,7 @@ $menuCategories = CurlController::request($url, $method, $fields, $header)->resu
                                             <?php foreach ($menuSubcategories as $key => $value): ?>
 
                                                 <li>
-                                                    <a href="<?php echo $value->url_subcategory ?>"><?php echo $value->name_subcategory ?></a>
+                                                    <a href="<?php echo $path.$value->url_subcategory ?>"><?php echo $value->name_subcategory ?></a>
                                                 </li>
                                                 
                                             <?php endforeach ?>
@@ -171,11 +171,11 @@ $menuCategories = CurlController::request($url, $method, $fields, $header)->resu
 
             <div class="header__content-center">
 
-                <form class="ps-form--quick-search" action="index.html" method="get">
+                <form class="ps-form--quick-search">
                   
-                    <input class="form-control" type="text" placeholder="I'm shopping for...">
+                    <input class="form-control inputSearch" type="text" placeholder="I'm shopping for...">
 
-                    <button>Search</button>
+                    <button type="button" class="btnSearch" path="<?php echo $path ?>">Search</button>
 
                 </form>
                 

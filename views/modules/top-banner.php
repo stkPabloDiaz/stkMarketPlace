@@ -23,6 +23,6 @@ $topBanner = json_decode($randomProduct->top_banner_product, true);
         </div>
         <div class="ps-block__center">
             <p><?php echo $topBanner["P2 tag"] ?><span><?php echo $topBanner["Span tag"] ?></span></p>
-        </div><a class="ps-btn ps-btn--sm" href="<?php echo $randomProduct->url_product ?>"><?php echo $topBanner["Button tag"] ?></a>
+        </div><a class="ps-btn ps-btn--sm" href="<?php echo $path.$randomProduct->url_product ?>"><?php echo $topBanner["Button tag"] ?></a>
     </div>
 </div>
