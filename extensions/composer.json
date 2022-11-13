@@ -1,0 +1,7 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "^6.6",
+        "mercadopago/dx-php": "2.5.1",
+        "firebase/php-jwt": "^6.3"
+    }
+}
